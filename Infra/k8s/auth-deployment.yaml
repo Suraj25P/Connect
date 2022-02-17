@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-auth-depl
+spec:
+  replicas : 1
+  selector:
+    matchLabels:
+      app : connect-auth-pod
+  template:
+    metadata:
+      labels:
+        app: connect-auth-pod
+    spec:
+      containers:
+        - name: connect-auth-container
+          image: srp254/connect-app-auth-image
+          imagePullPolicy: Never
+---
+apiVersion : v1
+kind : Service
+metadata: 
+  name: connect-auth-srv
+spec:
+  type: ClusterIP
+  selector:
+    app : connect-auth-pod
+  ports:
+    - name: connect-auth-port
+      protocol: TCP
+      port: 4001
+      targetPort: 4001
+

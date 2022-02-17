@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: connect.com
+      http:
+        paths:      
+          - path: /api/auth/?(.*)
+            backend:
+              serviceName: connect-auth-srv
+              servicePort: 4001
+          - path: /api/posts/?(.*)
+            backend:
+              serviceName: connect-posts-srv
+              servicePort: 4002
+          - path: /api/comments/?(.*)
+            backend:
+              serviceName: connect-comments-srv
+              servicePort: 4003
+          - path: /api/events/?(.*)
+            backend:
+              serviceName: connect-events-srv
+              servicePort: 4006
+          - path: /api/querry/?(.*)
+            backend:
+              serviceName: connect-querry-srv
+              servicePort: 4004
+          - path: /?(.*)
+            backend:
+              serviceName: connect-client-srv
+              servicePort: 3000

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-client-depl
+spec:
+  replicas : 1
+  selector:
+    matchLabels:
+      app : connect-client-pod
+  template:
+    metadata:
+      labels:
+        app: connect-client-pod
+    spec:
+      containers:
+        - name: connect-client-container
+          image: srp254/connect-app-client-image
+          imagePullPolicy: Never
+---
+apiVersion : v1
+kind : Service
+metadata: 
+  name: connect-client-srv
+spec:
+  type: ClusterIP
+  selector:
+    app : connect-client-pod
+  ports:
+    - name: connect-client-port
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-comments-depl
+spec:
+  replicas : 1
+  selector:
+    matchLabels:
+      app : connect-comments-pod
+  template:
+    metadata:
+      labels:
+        app: connect-comments-pod
+    spec:
+      containers:
+        - name: connect-comments-container
+          image: srp254/connect-app-comments-image
+          imagePullPolicy: Never
+---
+apiVersion : v1
+kind : Service
+metadata: 
+  name: connect-comments-srv
+spec:
+  type: ClusterIP
+  selector:
+    app : connect-comments-pod
+  ports:
+    - name: connect-comments-port
+      protocol: TCP
+      port: 4003
+      targetPort: 4003
+

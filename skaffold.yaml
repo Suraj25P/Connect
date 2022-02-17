@@ -1,0 +1,60 @@
+apiVersion: skaffold/v2beta27
+kind: Config 
+deploy: 
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: srp254/connect-app-auth-image
+      context: Auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: '/*'
+    - image: srp254/connect-app-posts-image
+      context: Posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '/*'
+            dest: .
+    - image: srp254/connect-app-comments-image
+      context: Comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: '/*'
+    - image: srp254/connect-app-events-image
+      context: Events
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: '/*'
+    - image: srp254/connect-app-querry-image
+      context: Querry
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: '/*'
+    - image: srp254/connect-app-client-image
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: '/*'
+            
+  

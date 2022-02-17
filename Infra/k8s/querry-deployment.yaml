@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-querry-depl
+spec:
+  replicas : 1
+  selector:
+    matchLabels:
+      app : connect-querry-pod
+  template:
+    metadata:
+      labels:
+        app: connect-querry-pod
+    spec:
+      containers:
+        - name: connect-querry-container
+          image: srp254/connect-app-querry-image
+          imagePullPolicy: Never
+---
+apiVersion : v1
+kind : Service
+metadata: 
+  name: connect-querry-srv
+spec:
+  type: ClusterIP
+  selector:
+    app : connect-querry-pod
+  ports:
+    - name: connect-querry-port
+      protocol: TCP
+      port: 4004
+      targetPort: 4004
+

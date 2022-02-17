@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connect-posts-depl
+spec:
+  replicas : 1
+  selector:
+    matchLabels:
+      app : connect-posts-pod
+  template:
+    metadata:
+      labels:
+        app: connect-posts-pod
+    spec:
+      containers:
+        - name: connect-posts-container
+          image: srp254/connect-app-posts-image
+          imagePullPolicy: Never
+---
+apiVersion : v1
+kind : Service
+metadata: 
+  name: connect-posts-srv
+spec:
+  type: ClusterIP
+  selector:
+    app : connect-posts-pod
+  ports:
+    - name: connect-posts-port
+      protocol: TCP
+      port: 4002
+      targetPort: 4002
+
